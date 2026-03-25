@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="content">
+    <div class="content-header">
+        <h2>销售报表</h2>
+    </div>
+    
+    <!-- 销售概览 -->
+    <div class="stats">
+        <div class="stat-card">
+            <h3>总销售额</h3>
+            <div class="stat-value">¥{{ total_sales|floatformat:2 }}</div>
+        </div>
+        <div class="stat-card">
+            <h3>订单数量</h3>
+            <div class="stat-value">{{ order_count }}</div>
+        </div>
+    </div>
+    
+    <!-- 订单状态统计 -->
+    <div class="content" style="margin-top: 20px;">
+        <h3>订单状态统计</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>订单状态</th>
+                    <th>数量</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for status in order_status_counts %}
+                <tr>
+                    <td>
+                        {% if status.status == 'pending' %}待处理
+                        {% elif status.status == 'paid' %}已付款
+                        {% elif status.status == 'shipped' %}已发货
+                        {% elif status.status == 'completed' %}已完成
+                        {% elif status.status == 'cancelled' %}已取消
+                        {% else %}{{ status.status }}
+                        {% endif %}
+                    </td>
+                    <td>{{ status.count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" style="text-align: center;">暂无订单数据</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- 最近30天销售趋势 -->
+    <div class="content" style="margin-top: 20px;">
+        <h3>最近30天销售趋势</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>销售额</th>
+                    <th>订单数量</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in daily_sales %}
+                <tr>
+                    <td>{{ sale.created_at__date }}</td>
+                    <td>¥{{ sale.sales|floatformat:2 }}</td>
+                    <td>{{ sale.orders }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align: center;">暂无销售数据</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

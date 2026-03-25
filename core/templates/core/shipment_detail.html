@@ -1,0 +1,86 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <div class="content-header">
+            <h2>出货记录详情</h2>
+            <a href="{% url 'shipment_list' %}" class="btn btn-sm btn-primary">返回列表</a>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div>
+                <h3>基本信息</h3>
+                <table>
+                    <tr>
+                        <th style="width: 150px;">货物名称</th>
+                        <td>{{ shipment.goods_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>型号</th>
+                        <td>{{ shipment.model }}</td>
+                    </tr>
+                    <tr>
+                        <th>出货日期</th>
+                        <td>{{ shipment.ship_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>地区</th>
+                        <td>{{ shipment.region }}</td>
+                    </tr>
+                    <tr>
+                        <th>仓库</th>
+                        <td>{{ shipment.warehouse }}</td>
+                    </tr>
+                    <tr>
+                        <th>状态</th>
+                        <td>
+                            <span class="status-badge status-{{ shipment.status }}">{{ shipment.get_status_display }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div>
+                <h3>物流信息</h3>
+                <table>
+                    <tr>
+                        <th style="width: 150px;">出货人</th>
+                        <td>{{ shipment.shipper }}</td>
+                    </tr>
+                    <tr>
+                        <th>收货人</th>
+                        <td>{{ shipment.receiver }}</td>
+                    </tr>
+                    <tr>
+                        <th>联系方式</th>
+                        <td>{{ shipment.contact }}</td>
+                    </tr>
+                    <tr>
+                        <th>单价</th>
+                        <td>¥{{ shipment.unit_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>数量</th>
+                        <td>{{ shipment.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <th>总价</th>
+                        <td>¥{{ shipment.total_price }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        {% if shipment.remark %}
+            <div style="margin-top: 30px;">
+                <h3>备注</h3>
+                <div style="background-color: #f9f9f9; padding: 15px; border-radius: 4px;">{{ shipment.remark }}</div>
+            </div>
+        {% endif %}
+        
+        <div style="margin-top: 30px; display: flex; gap: 10px;">
+            <a href="{% url 'shipment_update' shipment.id %}" class="btn btn-secondary">编辑</a>
+            <a href="{% url 'shipment_delete' shipment.id %}" class="btn btn-danger" onclick="return confirm('确定要删除这条记录吗？');">删除</a>
+        </div>
+    </div>
+{% endblock %}

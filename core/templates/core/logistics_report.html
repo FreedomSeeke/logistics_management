@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="content">
+    <div class="content-header">
+        <h2>物流报表</h2>
+    </div>
+    
+    <!-- 物流概览 -->
+    <div class="stats">
+        <div class="stat-card">
+            <h3>总物流单数量</h3>
+            <div class="stat-value">{{ total_logistics }}</div>
+        </div>
+    </div>
+    
+    <!-- 物流状态统计 -->
+    <div class="content" style="margin-top: 20px;">
+        <h3>物流状态统计</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>物流状态</th>
+                    <th>数量</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for status in logistics_status_counts %}
+                <tr>
+                    <td>{{ status.status }}</td>
+                    <td>{{ status.count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" style="text-align: center;">暂无物流数据</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- 最近30天物流趋势 -->
+    <div class="content" style="margin-top: 20px;">
+        <h3>最近30天物流趋势</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>物流单数量</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in daily_logistics %}
+                <tr>
+                    <td>{{ log.created_at__date }}</td>
+                    <td>{{ log.count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" style="text-align: center;">暂无物流数据</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

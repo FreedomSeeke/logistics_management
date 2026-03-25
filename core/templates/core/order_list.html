@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="content">
+    <div class="content-header">
+        <h2>订单管理</h2>
+        <a href="{% url 'order_create' %}" class="btn btn-primary">创建订单</a>
+    </div>
+    
+    <!-- 搜索框 -->
+    <form class="search-form" method="get">
+        <input type="text" name="q" placeholder="搜索订单号、客户姓名或联系方式..." value="{{ query }}">
+        <button type="submit" class="btn btn-sm btn-primary">搜索</button>
+    </form>
+    
+    <!-- 订单列表 -->
+    <table>
+        <thead>
+            <tr>
+                <th>订单号</th>
+                <th>客户姓名</th>
+                <th>联系方式</th>
+                <th>总金额</th>
+                <th>订单状态</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.order_number }}</td>
+                <td>{{ order.customer_name }}</td>
+                <td>{{ order.customer_contact }}</td>
+                <td>¥{{ order.total_amount }}</td>
+                <td>
+                    <span class="status-badge {% if order.status == 'pending' %}status-pending{% elif order.status == 'paid' %}status-paid{% elif order.status == 'shipped' %}status-shipped{% elif order.status == 'completed' %}status-completed{% elif order.status == 'cancelled' %}status-cancelled{% endif %}">
+                        {{ order.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ order.created_at|date:'Y-m-d H:i' }}</td>
+                <td>
+                    <a href="{% url 'order_detail' order.pk %}" class="btn btn-sm btn-secondary">查看</a>
+                    <a href="{% url 'order_update' order.pk %}" class="btn btn-sm btn-secondary">编辑</a>
+                    <a href="{% url 'order_delete' order.pk %}" class="btn btn-sm btn-danger">删除</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align: center;">暂无订单</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

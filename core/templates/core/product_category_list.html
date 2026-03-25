@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="content">
+    <div class="content-header">
+        <h2>产品分类管理</h2>
+        <a href="{% url 'product_category_create' %}" class="btn btn-primary">创建分类</a>
+    </div>
+    
+    <!-- 搜索框 -->
+    <form class="search-form" method="get">
+        <input type="text" name="q" placeholder="搜索分类名称..." value="{{ query }}">
+        <button type="submit" class="btn btn-sm btn-primary">搜索</button>
+    </form>
+    
+    <!-- 分类列表 -->
+    <table>
+        <thead>
+            <tr>
+                <th>分类名称</th>
+                <th>描述</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+            <tr>
+                <td>{{ category.name }}</td>
+                <td>{{ category.description|truncatechars:50 }}</td>
+                <td>{{ category.created_at|date:'Y-m-d H:i' }}</td>
+                <td>
+                    <a href="{% url 'product_category_update' category.pk %}" class="btn btn-sm btn-secondary">编辑</a>
+                    <a href="{% url 'product_category_delete' category.pk %}" class="btn btn-sm btn-danger">删除</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center;">暂无分类</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

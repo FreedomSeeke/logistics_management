@@ -1,0 +1,86 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <div class="content-header">
+            <h2>进货记录详情</h2>
+            <a href="{% url 'purchase_list' %}" class="btn btn-sm btn-primary">返回列表</a>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div>
+                <h3>基本信息</h3>
+                <table>
+                    <tr>
+                        <th style="width: 150px;">货物名称</th>
+                        <td>{{ purchase.goods_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>型号</th>
+                        <td>{{ purchase.model }}</td>
+                    </tr>
+                    <tr>
+                        <th>进货日期</th>
+                        <td>{{ purchase.purchase_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>供应商</th>
+                        <td>{{ purchase.supplier_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>仓库</th>
+                        <td>{{ purchase.warehouse }}</td>
+                    </tr>
+                    <tr>
+                        <th>状态</th>
+                        <td>
+                            <span class="status-badge status-{{ purchase.status }}">{{ purchase.get_status_display }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div>
+                <h3>价格信息</h3>
+                <table>
+                    <tr>
+                        <th style="width: 150px;">单价</th>
+                        <td>¥{{ purchase.unit_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>数量</th>
+                        <td>{{ purchase.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <th>总价</th>
+                        <td>¥{{ purchase.total_price }}</td>
+                    </tr>
+                    <tr>
+                        <th>进货人</th>
+                        <td>{{ purchase.purchaser }}</td>
+                    </tr>
+                    <tr>
+                        <th>收货人</th>
+                        <td>{{ purchase.receiver }}</td>
+                    </tr>
+                    <tr>
+                        <th>供应商联系方式</th>
+                        <td>{{ purchase.supplier_contact }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        {% if purchase.remark %}
+            <div style="margin-top: 30px;">
+                <h3>备注</h3>
+                <div style="background-color: #f9f9f9; padding: 15px; border-radius: 4px;">{{ purchase.remark }}</div>
+            </div>
+        {% endif %}
+        
+        <div style="margin-top: 30px; display: flex; gap: 10px;">
+            <a href="{% url 'purchase_update' purchase.id %}" class="btn btn-secondary">编辑</a>
+            <a href="{% url 'purchase_delete' purchase.id %}" class="btn btn-danger" onclick="return confirm('确定要删除这条记录吗？');">删除</a>
+        </div>
+    </div>
+{% endblock %}

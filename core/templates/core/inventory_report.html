@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="content">
+    <div class="content-header">
+        <h2>库存报表</h2>
+    </div>
+    
+    <!-- 库存概览 -->
+    <div class="stats">
+        <div class="stat-card">
+            <h3>总库存数量</h3>
+            <div class="stat-value">{{ total_stock }}</div>
+        </div>
+        <div class="stat-card">
+            <h3>总库存价值</h3>
+            <div class="stat-value">¥{{ total_value|floatformat:2 }}</div>
+        </div>
+    </div>
+    
+    <!-- 库存不足的产品 -->
+    <div class="content" style="margin-top: 20px;">
+        <h3>库存不足的产品（库存小于10）</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>产品名称</th>
+                    <th>型号</th>
+                    <th>当前库存</th>
+                    <th>单价</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in low_stock_products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.model }}</td>
+                    <td>{{ product.stock }}</td>
+                    <td>¥{{ product.price }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align: center;">暂无库存不足的产品</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- 按分类统计库存 -->
+    <div class="content" style="margin-top: 20px;">
+        <h3>按分类统计库存</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>分类名称</th>
+                    <th>库存数量</th>
+                    <th>库存价值</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in category_stock %}
+                <tr>
+                    <td>{{ category.category__name }}</td>
+                    <td>{{ category.total_stock }}</td>
+                    <td>¥{{ category.total_value|floatformat:2 }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align: center;">暂无库存数据</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

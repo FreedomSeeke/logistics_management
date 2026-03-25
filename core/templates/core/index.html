@@ -1,0 +1,78 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="stats">
+        <div class="stat-card">
+            <h3>出货记录总数</h3>
+            <div class="stat-value">{{ shipment_count }}</div>
+        </div>
+        <div class="stat-card">
+            <h3>进货记录总数</h3>
+            <div class="stat-value">{{ purchase_count }}</div>
+        </div>
+        <div class="stat-card">
+            <h3>系统状态</h3>
+            <div class="stat-value" style="color: #2196F3;">正常运行</div>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+        <!-- 最近出货记录 -->
+        <div class="content">
+            <div class="content-header">
+                <h2>最近出货记录</h2>
+                <a href="{% url 'shipment_list' %}" class="btn btn-sm btn-primary">查看全部</a>
+            </div>
+            
+            {% if recent_shipments %}
+                <div class="record-list">
+                    {% for shipment in recent_shipments %}
+                        <div class="record-item">
+                            <div class="record-header">
+                                <span class="record-title">{{ shipment.goods_name }}</span>
+                                <span class="status-badge status-{{ shipment.status }}">{{ shipment.get_status_display }}</span>
+                            </div>
+                            <div class="record-meta">
+                                <span>订单号：{{ shipment.id }}</span> | 
+                                <span>日期：{{ shipment.ship_date }}</span> | 
+                                <span>地区：{{ shipment.region }}</span> | 
+                                <span>金额：¥{{ shipment.total_price }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>暂无出货记录</p>
+            {% endif %}
+        </div>
+
+        <!-- 最近进货记录 -->
+        <div class="content">
+            <div class="content-header">
+                <h2>最近进货记录</h2>
+                <a href="{% url 'purchase_list' %}" class="btn btn-sm btn-primary">查看全部</a>
+            </div>
+            
+            {% if recent_purchases %}
+                <div class="record-list">
+                    {% for purchase in recent_purchases %}
+                        <div class="record-item">
+                            <div class="record-header">
+                                <span class="record-title">{{ purchase.goods_name }}</span>
+                                <span class="status-badge status-{{ purchase.status }}">{{ purchase.get_status_display }}</span>
+                            </div>
+                            <div class="record-meta">
+                                <span>订单号：{{ purchase.id }}</span> | 
+                                <span>日期：{{ purchase.purchase_date }}</span> | 
+                                <span>供应商：{{ purchase.supplier_name }}</span> | 
+                                <span>金额：¥{{ purchase.total_price }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>暂无进货记录</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

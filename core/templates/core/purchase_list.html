@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <div class="content-header">
+            <h2>进货记录管理</h2>
+            <a href="{% url 'purchase_create' %}" class="btn btn-primary">创建进货记录</a>
+        </div>
+        
+        <!-- 搜索功能 -->
+        <form method="get" class="search-form">
+            <input type="text" name="q" placeholder="搜索货物名称、供应商或日期" value="{{ query }}">
+            <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 10px;">搜索</button>
+            {% if query %}
+                <a href="{% url 'purchase_list' %}" class="btn btn-sm btn-secondary" style="margin-left: 5px;">清除</a>
+            {% endif %}
+        </form>
+        
+        <!-- 进货记录表格 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>货物名称</th>
+                    <th>型号</th>
+                    <th>进货日期</th>
+                    <th>供应商</th>
+                    <th>仓库</th>
+                    <th>数量</th>
+                    <th>总价</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if purchases %}
+                    {% for purchase in purchases %}
+                        <tr>
+                            <td>{{ purchase.goods_name }}</td>
+                            <td>{{ purchase.model }}</td>
+                            <td>{{ purchase.purchase_date }}</td>
+                            <td>{{ purchase.supplier_name }}</td>
+                            <td>{{ purchase.warehouse }}</td>
+                            <td>{{ purchase.quantity }}</td>
+                            <td>¥{{ purchase.total_price }}</td>
+                            <td>
+                                <span class="status-badge status-{{ purchase.status }}">{{ purchase.get_status_display }}</span>
+                            </td>
+                            <td>
+                                <a href="{% url 'purchase_detail' purchase.id %}" class="btn btn-sm btn-primary">详情</a>
+                                <a href="{% url 'purchase_update' purchase.id %}" class="btn btn-sm btn-secondary">编辑</a>
+                                <a href="{% url 'purchase_delete' purchase.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定要删除这条记录吗？');">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="9" style="text-align: center;">暂无进货记录</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <div class="content-header">
+            <h2>{{ title }}</h2>
+            <a href="{% url 'purchase_list' %}" class="btn btn-sm btn-secondary">取消</a>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-group">
+                    <label>{{ form.goods_name.label }}</label>
+                    {{ form.goods_name }}
+                    {% if form.goods_name.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.goods_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.model.label }}</label>
+                    {{ form.model }}
+                    {% if form.model.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.model.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.purchase_date.label }}</label>
+                    {{ form.purchase_date }}
+                    {% if form.purchase_date.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.purchase_date.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.supplier_name.label }}</label>
+                    {{ form.supplier_name }}
+                    {% if form.supplier_name.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.supplier_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.supplier_contact.label }}</label>
+                    {{ form.supplier_contact }}
+                    {% if form.supplier_contact.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.supplier_contact.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.purchaser.label }}</label>
+                    {{ form.purchaser }}
+                    {% if form.purchaser.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.purchaser.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.receiver.label }}</label>
+                    {{ form.receiver }}
+                    {% if form.receiver.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.receiver.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.unit_price.label }}</label>
+                    {{ form.unit_price }}
+                    {% if form.unit_price.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.unit_price.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.quantity.label }}</label>
+                    {{ form.quantity }}
+                    {% if form.quantity.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.quantity.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.warehouse.label }}</label>
+                    {{ form.warehouse }}
+                    {% if form.warehouse.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.warehouse.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ form.status.label }}</label>
+                    {{ form.status }}
+                    {% if form.status.errors %}
+                        <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.status.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group" style="margin-top: 20px;">
+                <label>{{ form.remark.label }}</label>
+                {{ form.remark }}
+                {% if form.remark.errors %}
+                    <div style="color: red; font-size: 12px; margin-top: 5px;">{{ form.remark.errors.0 }}</div>
+                {% endif %}
+            </div>
+            
+            <div style="margin-top: 30px; display: flex; gap: 10px;">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <a href="{% url 'purchase_list' %}" class="btn btn-secondary">取消</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

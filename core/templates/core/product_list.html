@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="content">
+    <div class="content-header">
+        <h2>产品管理</h2>
+        <a href="{% url 'product_create' %}" class="btn btn-primary">创建产品</a>
+    </div>
+    
+    <!-- 搜索框 -->
+    <form class="search-form" method="get">
+        <input type="text" name="q" placeholder="搜索产品名称、型号或分类..." value="{{ query }}">
+        <button type="submit" class="btn btn-sm btn-primary">搜索</button>
+    </form>
+    
+    <!-- 产品列表 -->
+    <table>
+        <thead>
+            <tr>
+                <th>产品名称</th>
+                <th>型号</th>
+                <th>分类</th>
+                <th>单价</th>
+                <th>库存</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.model }}</td>
+                <td>{{ product.category.name|default:'未分类' }}</td>
+                <td>¥{{ product.price }}</td>
+                <td>{{ product.stock }}</td>
+                <td>{{ product.created_at|date:'Y-m-d H:i' }}</td>
+                <td>
+                    <a href="{% url 'product_update' product.pk %}" class="btn btn-sm btn-secondary">编辑</a>
+                    <a href="{% url 'product_delete' product.pk %}" class="btn btn-sm btn-danger">删除</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align: center;">暂无产品</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
