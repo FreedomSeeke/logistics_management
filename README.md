@@ -16,6 +16,7 @@ python -m venv venv
 #安装依赖
 ```
 pip install -r requirements.txt
+```
 
 如有学习需要可找作者拿管理员账户密码
 
