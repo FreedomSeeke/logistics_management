@@ -25,7 +25,7 @@ pip install -r requirements.txt
 <img src="https://github.com/user-attachments/assets/0a2c6783-7ccf-4091-a57a-099ed1c215ac" width="300" height="300" />
 
 ```text
-Wechat_Flask License (Non-Commercial)
+logistics_management License (Non-Commercial)
 
 版权所有 (c) 2026 LLH
 
